@@ -1,0 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+form {
+  width: 50%;
+  margin: 0 auto;
+}
+.error {
+  color: red;
+}

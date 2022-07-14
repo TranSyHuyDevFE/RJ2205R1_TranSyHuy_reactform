@@ -3,6 +3,9 @@ import * as Yup from "yup";
 import "./styles.css";
 import { useFormik } from "formik";
 function Form() {
+  const REGEX_EMAIL = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  const EMAIL_VALID = "Please enter a vaild email adress";
+  const REQUIRED = "Required";
   const formInput = useFormik({
     initialValues: {
       email: "",
@@ -11,19 +14,15 @@ function Form() {
       mess: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .required("Required")
-        .matches(
-          /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-          "Please enter a vaild email adress"
-        ),
-      password: Yup.string().required("Required"),
-      phone: Yup.string().required("Required"),
-      mess: Yup.string().required("Required"),
+      email: Yup.string().required(REQUIRED).matches(REGEX_EMAIL, EMAIL_VALID),
+      password: Yup.string().required(REQUIRED),
+      phone: Yup.string().required(REQUIRED),
+      mess: Yup.string().required(REQUIRED),
     }),
-    onSubmit: (values) => {
+    onSubmit: (values, { resetForm }) => {
       alert("Add contact successfully!!!");
-      // console.log(values);
+      resetForm({ values: "" });
+      console.log(values);
     },
   });
 
@@ -36,7 +35,7 @@ function Form() {
             type="email"
             name="email"
             className="form-control"
-            value={formInput.values.name}
+            value={formInput.values.email}
             onChange={formInput.handleChange}
           />
           {formInput.errors.email && (
@@ -49,7 +48,7 @@ function Form() {
             type="password"
             name="password"
             className="form-control"
-            value={formInput.values.name}
+            value={formInput.values.password}
             onChange={formInput.handleChange}
           />
           {formInput.errors.password && (
